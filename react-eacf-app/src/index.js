@@ -89,7 +89,7 @@ function calculateWinner(squares) {
       //Flip xIsNext for next turn
       this.setState({
         history: history.concat([{
-          squares: squares
+          squares: squares,
         }]),
         xIsNext: !this.state.xIsNext,
       });
@@ -111,7 +111,7 @@ function calculateWinner(squares) {
           <div className="game-board">
             <Board 
               squares={current.squares}
-              onClick={(i) => this.handleClick()}
+              onClick={(i) => this.handleClick(i)}
             />
           </div>
           <div className="game-info">
