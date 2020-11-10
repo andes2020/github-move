@@ -71,12 +71,13 @@ function calculateWinner(squares) {
           squares: Array(9).fill(null),
         }],
         xIsNext: true,
+        stepNumber: 0,
       };
     }
 
     // Implement handleclick()
     handleClick(i) {
-      const history = this.state.history;
+      const history = this.state.history.slice(0, this.state.stepNumber + 1);
       const current = history[history.length - 1];
       const squares = current.squares.slice();
       // Check if a win exist or square filled
@@ -92,14 +93,35 @@ function calculateWinner(squares) {
           squares: squares,
         }]),
         xIsNext: !this.state.xIsNext,
+        stepNumber: history.length,
+      });
+    }
+
+    // Implement jumpTo function
+    // Set xIsNext if step is even
+    jumpTo(step) {
+      this.setState({
+        stepNumber: step,
+        xIsNext: (step % 2) === 0,
       });
     }
 
     render() {
       const history = this.state.history;
-      const current = history[history.length - 1];
+      const current = history[this.state.stepNumber];
       const winner = calculateWinner(current.squares);
+      const moves = history.map((step, move) => {
+        const desc = move ?
+          'Go to move #' + move :
+          'Reset';
+        return (
+          <li key={move}>
+            <button onClick={() => this.jumpTo(move)}>{desc}</button>
+          </li>
+        );
+      });
       let status;
+
       if (winner) {
         status = 'Winner: ' + winner
       }else{
@@ -116,7 +138,7 @@ function calculateWinner(squares) {
           </div>
           <div className="game-info">
             <div>{status}</div>
-            <ol>{/* TODO */}</ol>
+            <ol>{moves}</ol>
           </div>
         </div>
       );
