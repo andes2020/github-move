@@ -124,6 +124,7 @@ function calculateWinner(squares) {
 
       if (winner) {
         status = 'Winner: ' + winner
+        alert(status)
       }else{
         status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
       }
