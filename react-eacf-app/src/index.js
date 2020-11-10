@@ -3,18 +3,49 @@ import ReactDOM from 'react-dom'
 import './index.css'
 
 class Square extends React.Component {
+    // //Create a state for storing current value of square
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         value: null,
+    //     };
+    // }
+
     render() {
       return (
-        <button className="square">
-          {/* TODO */}
+        <button 
+            className="square"
+            onClick={() => this.props.onClick()}
+        >
+          {this.props.value}
         </button>
       );
     }
   }
   
   class Board extends React.Component {
+    //This create a share state in parent board component
+    constructor(props) {
+        super(props);
+        this.state = {
+            squares: Array(9).fill(null),
+        };
+    }
+
+    // Implement handleclick()
+    handleClick(i) {
+      const squares = this.state.squares.slice();
+      squares[i] = 'X';
+      //Update existing array of 9 squares
+      this.setState({squares: squares})
+    }
+
     renderSquare(i) {
-      return <Square />;
+      return (<Square 
+                value={this.state.squares[i]}
+                onClick={() => this.handleClick(i)}
+             />
+      );
     }
   
     render() {
