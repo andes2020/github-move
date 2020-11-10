@@ -45,6 +45,7 @@ function calculateWinner(squares) {
       const squares = this.state.squares.slice();
       // Check if a win exist or square filled
       if (calculateWinner(squares) || squares[i]) {
+        alert('A winner is declared or squares filed!')
         return;
       }
       squares[i] = this.state.xIsNext ? 'X' : 'O';
