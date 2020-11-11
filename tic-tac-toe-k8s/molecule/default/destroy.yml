@@ -5,19 +5,10 @@
   gather_facts: false
   no_log: "{{ molecule_no_log }}"
   tasks:
-    # Developer must implement.
-
-    # Mandatory configuration for Molecule to function.
-
-    - name: Populate instance config
-      set_fact:
-        instance_conf: {}
-
-    - name: Dump instance config
-      copy:
-        content: |
-          # Molecule managed
-
-          {{ instance_conf | to_json | from_json | to_yaml }}
-        dest: "{{ molecule_instance_config }}"
-      when: server.changed | default(false) | bool
+    - name: Build a kind cluster locally
+      command: >-
+        kind delete cluster
+        --wait 300s
+        --name molecule-test
+        --kubeconfig {{ kubeconfig }}
+      changed_when: false
